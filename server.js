@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000
 const morgan = require("morgan")
 const server = app.listen(port, () => `Listening on ${port}`)
 const socket = require('socket.io')
-const io = socket.listen(server)
+const io = socket.listen(server) // Was planning to do this. Perhaps later.
 const route = require("./routes/routes")
 const swig = require('swig')
 const bodyParser = require('body-parser')
@@ -20,7 +20,8 @@ swig.setDefaults({ cache : false});
 //Body Parser
 app.use(bodyParser.urlencoded({ extended: false }))
 
+//Override Post to deleteProduct
+app.use(require('method-override')('_method'))
+
 //Router
 app.use('/', route(io))
-
-app.get('/', (req,res) => res.send("hi2u"))

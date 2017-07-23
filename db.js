@@ -31,6 +31,7 @@ var data = {
 }
 
 module.exports = {
+
   getCategoryNames : function() {
     return Object.keys(data)
   },
@@ -42,10 +43,14 @@ module.exports = {
     }
   },
   createProduct : function (category, product) {
+    let id = data[category].reduce(function(acc, item) {
+      return Math.max(item.id, acc)
+    }, 0)
+    product.id = ++id
     data[category].push(product)
   },
-  deleteProduct : function(category, name) {
-    data[category] = data[category].filter( (prod) => prod.name != name)
+  deleteProduct : function(category, id) {
+    data[category] = data[category].filter( (prod) => prod.id != id)
   },
   updateProduct : function(category, product) {
     data[category].forEach(
