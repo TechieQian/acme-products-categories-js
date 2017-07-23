@@ -8,6 +8,7 @@ const io = socket.listen(server)
 const route = require("./routes/routes")
 const swig = require('swig')
 const bodyParser = require('body-parser')
+
 //Debug
 app.use('/', morgan('dev'))
 
@@ -16,7 +17,8 @@ app.set('view engine', 'html')
 app.engine('html', swig.renderFile)
 swig.setDefaults({ cache : false});
 
-//
+//Body Parser
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //Router
 app.use('/', route(io))

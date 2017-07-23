@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="container">
+    {% block header %}
+    <h1> Acme Products Categories</h1>
+    {% endblock %}
+
+    <ul class="nav nav-tabs">
+    {% for category in categories %}
+      <li><a data-toggle="tab" href="/categories/{{category}}/products">{{category}}</a></li>
+    {% endfor %}
+    </ul>
+
+    {% block content%}
+
+    {% endblock %}
+
+  </body>
+</html>
