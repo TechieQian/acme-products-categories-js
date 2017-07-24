@@ -11,10 +11,11 @@ router.get('/categories/:category/*', function(req,res) {
 module.exports = function (io) { // I was gonna implement socket on this one too but eh...
 
   router.post('/categories', function(req,res) {
-    if (!~db.getCategoryNames().indexOf(req.body["category-name"])) {
-      db.createCategory(req.body["category-name"])
+    let categoryName = req.body["category-name"].trim()
+    if (!~db.getCategoryNames().indexOf(categoryName)) {
+      db.createCategory(categoryName)
     }
-    res.redirect('/categories/'+req.body["category-name"]+'/products')
+    res.redirect('/categories/'+categoryName+'/products')
   })
 
   router.post('/categories/:category/*', function(req,res) {
@@ -31,6 +32,5 @@ module.exports = function (io) { // I was gonna implement socket on this one too
     db.deleteCategory(req.params.category)
     res.redirect('/')
   })
-
   return router
 }
