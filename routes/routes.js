@@ -12,10 +12,11 @@ module.exports = function (io) { // I was gonna implement socket on this one too
 
   router.post('/categories', function(req,res) {
     let categoryName = req.body["category-name"].trim()
-    if (!~db.getCategoryNames().indexOf(categoryName)) {
+    if (categoryName && !~db.getCategoryNames().indexOf(categoryName)) {
       db.createCategory(categoryName)
+      res.redirect('/categories/'+categoryName+'/products')
     }
-    res.redirect('/categories/'+categoryName+'/products')
+    res.redirect('/')
   })
 
   router.post('/categories/:category/*', function(req,res) {
