@@ -5,7 +5,12 @@ const db = require("../db.js")
 router.get('/', (req,res) => res.render('index.html', {"categories" : db.getCategoryNames()}))
 
 router.get('/categories/:category/*', function(req,res) {
-  res.render('products.html', {name : req.params.category, categories : db.getCategoryNames(), products : db.getProductsByCategory(req.params.category)})
+  if (~db.getCategoryNames().indexOf(req.params.category)){
+    res.render('products.html', {name : req.params.category, categories : db.getCategoryNames(), products : db.getProductsByCategory(req.params.category)})
+  }
+  else {
+    res.redirect('/')
+  }
 })
 
 module.exports = function (io) { // I was gonna implement socket on this one too but eh...
@@ -16,7 +21,9 @@ module.exports = function (io) { // I was gonna implement socket on this one too
       db.createCategory(categoryName)
       res.redirect('/categories/'+categoryName+'/products')
     }
-    res.redirect('/')
+    else {
+      res.redirect('/')
+    }
   })
 
   router.post('/categories/:category/*', function(req,res) {
