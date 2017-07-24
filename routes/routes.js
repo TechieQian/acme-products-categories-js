@@ -19,7 +19,9 @@ module.exports = function (io) { // I was gonna implement socket on this one too
   })
 
   router.post('/categories/:category/*', function(req,res) {
-    db.createProduct(req.params.category, req.body)
+    if (req.body) {
+      db.createProduct(req.params.category, req.body)
+    }
     res.redirect('/categories/' + req.params.category + '/products')
   })
 
