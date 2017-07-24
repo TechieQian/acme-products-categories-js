@@ -8,10 +8,12 @@ router.get('/categories/:category/*', function(req,res) {
   res.render('products.html', {name : req.params.category, categories : db.getCategoryNames(), products : db.getProductsByCategory(req.params.category)})
 })
 
-module.exports = function (io) { // I was gonna implement socket on this one too but eh... 
+module.exports = function (io) { // I was gonna implement socket on this one too but eh...
 
   router.post('/categories', function(req,res) {
-    db.createCategory(req.body["category-name"])
+    if (!~db.getCategoryNames().indexOf(req.body["category-name"])) {
+      db.createCategory(req.body["category-name"])
+    }
     res.redirect('/categories/'+req.body["category-name"]+'/products')
   })
 
